@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "esnext",
+    "jsx": "react",
+    "paths": {
+      "@/*": ["./src/*"],
+    },
+  },
+}
