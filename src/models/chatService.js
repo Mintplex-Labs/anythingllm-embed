@@ -54,6 +54,7 @@ const ChatService = {
         if (response.ok) {
           return; // everything's good
         } else if (response.status >= 400) {
+          const body = await response.json();
           await response
             .json()
             .then((serverResponse) => {
@@ -67,6 +68,7 @@ const ChatService = {
                 sources: [],
                 close: true,
                 error: `An error occurred while streaming response. Code ${response.status}`,
+                errorMsg: body?.errorMsg || "Server error",
               });
             });
           ctrl.abort();
@@ -98,6 +100,7 @@ const ChatService = {
           sources: [],
           close: true,
           error: `An error occurred while streaming response. ${err.message}`,
+          errorMsg: "Server error",
         });
         ctrl.abort();
         throw new Error();

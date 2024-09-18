@@ -6,7 +6,7 @@ export default function handleChat(
   remHistory,
   _chatHistory
 ) {
-  const { uuid, textResponse, type, sources = [], error, close } = chatResult;
+  const { uuid, textResponse, type, sources = [], error, close, errorMsg } = chatResult;
 
   if (type === "abort") {
     setLoadingResponse(false);
@@ -19,6 +19,7 @@ export default function handleChat(
         sources,
         closed: true,
         error,
+        errorMsg,
         animate: false,
         pending: false,
       },
