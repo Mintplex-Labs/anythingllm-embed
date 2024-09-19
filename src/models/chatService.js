@@ -67,7 +67,6 @@ const ChatService = {
                 sources: [],
                 close: true,
                 error: `An error occurred while streaming response. Code ${response.status}`,
-                errorMsg: body?.errorMsg || "Server error",
               });
             });
           ctrl.abort();
@@ -89,7 +88,7 @@ const ChatService = {
         try {
           const chatResult = JSON.parse(msg.data);
           handleChat(chatResult);
-        } catch {}
+        } catch { }
       },
       onerror(err) {
         handleChat({
