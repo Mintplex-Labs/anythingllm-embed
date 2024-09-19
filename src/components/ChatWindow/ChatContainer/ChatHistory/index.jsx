@@ -96,6 +96,7 @@ export default function ChatHistory({ settings = {}, history = [] }) {
             chatId={props.chatId}
             feedbackScore={props.feedbackScore}
             error={props.error}
+            errorMsg={props.errorMsg}
           />
         );
       })}

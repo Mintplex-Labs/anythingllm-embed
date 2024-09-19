@@ -10,7 +10,15 @@ import { formatDate } from "@/utils/date";
 const DOMPurify = createDOMPurify(window);
 const HistoricalMessage = forwardRef(
   (
-    { uuid = v4(), message, role, sources = [], error = false, sentAt },
+    {
+      uuid = v4(),
+      message,
+      role,
+      sources = [],
+      error = false,
+      errorMsg = null,
+      sentAt,
+    },
     ref
   ) => {
     const textSize = !!embedderSettings.settings.textSize
@@ -67,7 +75,7 @@ const HistoricalMessage = forwardRef(
                     Could not respond to message.
                   </span>
                   <p className="allm-text-xs allm-font-mono allm-mt-2 allm-border-l-2 allm-border-red-500 allm-pl-2 allm-bg-red-300 allm-p-2 allm-rounded-sm">
-                    Server error
+                    {errorMsg || "Server error"}
                   </p>
                 </div>
               ) : (
