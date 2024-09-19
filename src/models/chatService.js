@@ -88,7 +88,7 @@ const ChatService = {
         try {
           const chatResult = JSON.parse(msg.data);
           handleChat(chatResult);
-        } catch { }
+        } catch {}
       },
       onerror(err) {
         handleChat({
