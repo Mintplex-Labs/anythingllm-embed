@@ -10,7 +10,15 @@ import { formatDate } from "@/utils/date";
 const DOMPurify = createDOMPurify(window);
 const HistoricalMessage = forwardRef(
   (
-    { uuid = v4(), message, role, sources = [], error = false, errorMsg = null, sentAt },
+    {
+      uuid = v4(),
+      message,
+      role,
+      sources = [],
+      error = false,
+      errorMsg = null,
+      sentAt,
+    },
     ref
   ) => {
     const textSize = !!embedderSettings.settings.textSize
