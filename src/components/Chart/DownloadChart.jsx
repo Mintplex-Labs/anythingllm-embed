@@ -12,18 +12,18 @@ function DownloadChart({ onClick }) {
   };
 
   return (
-    <div className="absolute top-3 right-3 z-50 cursor-pointer">
-      <div className="flex flex-col items-center">
-        <div className="p-1 rounded-full border-none">
+    <div className="allm-absolute allm-top-3 allm-right-3 allm-z-50 allm-cursor-pointer">
+      <div className="allm-flex allm-flex-col allm-items-center">
+        <div className="allm-p-1 allm-rounded-full allm-border-none">
           {loading ? (
             <CircleNotch
-              className="text-theme-text-primary w-5 h-5 animate-spin"
+              className="allm-w-5 allm-h-5 allm-animate-spin"
               aria-label="Downloading image..."
             />
           ) : (
             <DownloadSimple
               weight="bold"
-              className="text-theme-text-primary w-5 h-5 hover:text-theme-text-primary"
+              className="allm-w-5 allm-h-5"
               onClick={handleClick}
               aria-label="Download graph image"
             />

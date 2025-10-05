@@ -48,6 +48,9 @@ export function safeJsonParse(jsonString, fallback = null) {
     return JSON.parse(jsonString);
   } catch (x) {
     console.error("Failed to parse data", x);
+      if (jsonString.startsWith("[") && jsonString.endsWith("]}")) { //fallback: try to remove redundant closing bracket if exists. seems like a server side issue or LLM generation quirk for the dataset json string
+          return JSON.parse(jsonString.slice(0, -1));
+      }
   }
   return fallback;
 }
