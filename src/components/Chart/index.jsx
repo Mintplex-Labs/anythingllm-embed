@@ -91,7 +91,7 @@ export function Chart({props}) {
                             </defs>
                             <CartesianGrid strokeDasharray="3 3" stroke="#444"/>
                             <XAxis dataKey="name" tick={{fill: foregroundColor}}/>
-                            <YAxis tick={{fill: foregroundColor}} formatter={dataFormatter}/>
+                            <YAxis tick={{fill: foregroundColor}} tickFormatter={dataFormatter}/>
                             <Tooltip/>
                             <Area type="monotone" dataKey={value} stroke={getColor(color || "blue")}
                                   fillOpacity={1} fill="url(#colorValue)"/>
@@ -105,7 +105,7 @@ export function Chart({props}) {
                         <BarChart data={data} margin={{top: 20, right: 30, left: 20, bottom: 5}}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#444"/>
                             <XAxis dataKey="name" tick={{fill: foregroundColor}}/>
-                            <YAxis tick={{fill: foregroundColor}} formatter={dataFormatter}/>
+                            <YAxis tick={{fill: foregroundColor}} tickFormatter={dataFormatter}/>
                             <Tooltip/>
                             {showLegend && <Legend/>}
                             <Bar dataKey={value} fill={getColor(color || "blue")}/>
@@ -119,7 +119,7 @@ export function Chart({props}) {
                         <LineChart data={data} margin={{top: 5, right: 30, left: 20, bottom: 5}}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#444"/>
                             <XAxis dataKey="name" tick={{fill: foregroundColor}}/>
-                            <YAxis tick={{fill: foregroundColor}} formatter={dataFormatter}/>
+                            <YAxis tick={{fill: foregroundColor}} tickFormatter={dataFormatter}/>
                             <Tooltip/>
                             {showLegend && <Legend/>}
                             <Line type="monotone" dataKey={value} stroke={getColor(color || "blue")}
@@ -134,7 +134,7 @@ export function Chart({props}) {
                         <ComposedChart data={data} margin={{top: 20, right: 20, bottom: 20, left: 20}}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#444"/>
                             <XAxis dataKey="name" tick={{fill: foregroundColor}}/>
-                            <YAxis tick={{fill: foregroundColor}} formatter={dataFormatter}/>
+                            <YAxis tick={{fill: foregroundColor}} tickFormatter={dataFormatter}/>
                             <Tooltip/>
                             {showLegend && <Legend/>}
                             <Bar dataKey={value} fill={getColor(color || "blue")}/>
@@ -149,7 +149,7 @@ export function Chart({props}) {
                         <ScatterChart margin={{top: 20, right: 20, bottom: 20, left: 20}}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#444"/>
                             <XAxis type="number" dataKey="name" name="name" tick={{fill: foregroundColor}}/>
-                            <YAxis type="number" dataKey={value} name={value} tick={{fill: foregroundColor}} formatter={dataFormatter}/>
+                            <YAxis type="number" dataKey={value} name={value} tick={{fill: foregroundColor}} tickFormatter={dataFormatter}/>
                             <Tooltip cursor={{strokeDasharray: '3 3'}}/>
                             <Scatter name={value} data={data} fill={getColor(color || "blue")}/>
                         </ScatterChart>
