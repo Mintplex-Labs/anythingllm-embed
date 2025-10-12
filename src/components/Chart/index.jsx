@@ -41,12 +41,14 @@ import {embedderSettings} from "@/main.jsx";
 import AnythingLLMIcon from "@/assets/anything-llm-icon.svg";
 
 // Main Chart component
+const foregroundColor = 'black';
+
 export function Chart({props}) {
     const [getDivJpeg, {ref}] = useGenerateImage({
         quality: 1,
         type: "image/jpeg",
         options: {
-            backgroundColor: "#393d43",
+            // backgroundColor: "#393d43",
             padding: 20,
         },
     });
@@ -88,8 +90,8 @@ export function Chart({props}) {
                                 </linearGradient>
                             </defs>
                             <CartesianGrid strokeDasharray="3 3" stroke="#444"/>
-                            <XAxis dataKey="name" tick={{fill: 'white'}}/>
-                            <YAxis tick={{fill: 'white'}} formatter={dataFormatter}/>
+                            <XAxis dataKey="name" tick={{fill: foregroundColor}}/>
+                            <YAxis tick={{fill: foregroundColor}} formatter={dataFormatter}/>
                             <Tooltip/>
                             <Area type="monotone" dataKey={value} stroke={getColor(color || "blue")}
                                   fillOpacity={1} fill="url(#colorValue)"/>
@@ -102,8 +104,8 @@ export function Chart({props}) {
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={data} margin={{top: 20, right: 30, left: 20, bottom: 5}}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#444"/>
-                            <XAxis dataKey="name" tick={{fill: 'white'}}/>
-                            <YAxis tick={{fill: 'white'}} formatter={dataFormatter}/>
+                            <XAxis dataKey="name" tick={{fill: foregroundColor}}/>
+                            <YAxis tick={{fill: foregroundColor}} formatter={dataFormatter}/>
                             <Tooltip/>
                             {showLegend && <Legend/>}
                             <Bar dataKey={value} fill={getColor(color || "blue")}/>
@@ -116,8 +118,8 @@ export function Chart({props}) {
                     <ResponsiveContainer width="100%" height={300}>
                         <LineChart data={data} margin={{top: 5, right: 30, left: 20, bottom: 5}}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#444"/>
-                            <XAxis dataKey="name" tick={{fill: 'white'}}/>
-                            <YAxis tick={{fill: 'white'}} formatter={dataFormatter}/>
+                            <XAxis dataKey="name" tick={{fill: foregroundColor}}/>
+                            <YAxis tick={{fill: foregroundColor}} formatter={dataFormatter}/>
                             <Tooltip/>
                             {showLegend && <Legend/>}
                             <Line type="monotone" dataKey={value} stroke={getColor(color || "blue")}
@@ -131,8 +133,8 @@ export function Chart({props}) {
                     <ResponsiveContainer width="100%" height={260}>
                         <ComposedChart data={data} margin={{top: 20, right: 20, bottom: 20, left: 20}}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#444"/>
-                            <XAxis dataKey="name" tick={{fill: 'white'}}/>
-                            <YAxis tick={{fill: 'white'}} formatter={dataFormatter}/>
+                            <XAxis dataKey="name" tick={{fill: foregroundColor}}/>
+                            <YAxis tick={{fill: foregroundColor}} formatter={dataFormatter}/>
                             <Tooltip/>
                             {showLegend && <Legend/>}
                             <Bar dataKey={value} fill={getColor(color || "blue")}/>
@@ -146,8 +148,8 @@ export function Chart({props}) {
                     <ResponsiveContainer width="100%" height={260}>
                         <ScatterChart margin={{top: 20, right: 20, bottom: 20, left: 20}}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#444"/>
-                            <XAxis type="number" dataKey="name" name="name" tick={{fill: 'white'}}/>
-                            <YAxis type="number" dataKey={value} name={value} tick={{fill: 'white'}} formatter={dataFormatter}/>
+                            <XAxis type="number" dataKey="name" name="name" tick={{fill: foregroundColor}}/>
+                            <YAxis type="number" dataKey={value} name={value} tick={{fill: foregroundColor}} formatter={dataFormatter}/>
                             <Tooltip cursor={{strokeDasharray: '3 3'}}/>
                             <Scatter name={value} data={data} fill={getColor(color || "blue")}/>
                         </ScatterChart>
@@ -188,8 +190,8 @@ export function Chart({props}) {
                     <ResponsiveContainer width="100%" height={300}>
                         <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
                             <PolarGrid stroke="#444"/>
-                            <PolarAngleAxis dataKey="name" tick={{fill: 'white'}}/>
-                            <PolarRadiusAxis tick={{fill: 'white'}}/>
+                            <PolarAngleAxis dataKey="name" tick={{fill: foregroundColor}}/>
+                            <PolarRadiusAxis tick={{fill: foregroundColor}}/>
                             <Tooltip/>
                             <Radar name={value} dataKey={value} stroke={getColor(color || "blue")}
                                    fill={getColor(color || "blue")} fillOpacity={0.6}/>
@@ -244,7 +246,7 @@ export function Chart({props}) {
                 );
 
             default:
-                return <p className="text-white">Unsupported chart type: {chartType}</p>;
+                return <p className="allm-text-black">Unsupported chart type: {chartType}</p>;
         }
     };
 
@@ -254,7 +256,7 @@ export function Chart({props}) {
                 {embedderSettings.settings.assistantName ||
                     "Anything LLM Chat Assistant"}
             </div>
-            <div className="allm-items-start allm-w-full allm-h-fit allm-justify-start">
+            <div className="allm-flex allm-items-start allm-w-full allm-h-fit allm-justify-start">
                 <img
                     src={embedderSettings.settings.assistantIcon || AnythingLLMIcon}
                     alt="Anything LLM Icon"
@@ -265,12 +267,12 @@ export function Chart({props}) {
                         wordBreak: "break-word",
                         backgroundColor: embedderSettings.ASSISTANT_STYLES.msgBg,
                     }}
-                    className={`allm-py-[11px] allm-px-4 allm-flex allm-flex-col ${embedderSettings.ASSISTANT_STYLES.base} allm-shadow-[0_4px_14px_rgba(0,0,0,0.25)]`}
+                    className={`allm-py-[11px] allm-px-4 allm-flex allm-flex-col allm-flex-1 ${embedderSettings.ASSISTANT_STYLES.base} allm-shadow-[0_4px_14px_rgba(0,0,0,0.25)]`}
                 >
                     <div className="allm-relative allm-w-full">
                         <DownloadChart onClick={handleDownload}/>
                         <div ref={ref} className="allm-p-8 allm-rounded-xl">
-                            <h3 className="allm-text-lg allm-mb-4">{title}</h3>
+                            <h3 className="allm-text-lg allm-m-0 allm-mb-2 allm-px-4">{title}</h3>
                             { renderChart(content?.type?.toLowerCase()) }
                         </div>
                     </div>
