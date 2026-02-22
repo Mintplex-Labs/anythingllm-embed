@@ -16,7 +16,7 @@ export default function App() {
       <Head />
       <div
         id="anything-llm-embed-chat-container"
-        className="allm-w-full allm-h-full allm-bg-white allm-rounded-2xl allm-border allm-border-gray-300 allm-shadow-[0_4px_14px_rgba(0,0,0,0.25)] allm-flex allm-flex-col allm-overflow-hidden"
+        className="allm-w-full allm-h-full allm-bg-white allm-flex allm-flex-col allm-overflow-hidden"
         style={{
           maxWidth: embedSettings.windowWidth ?? "100%",
           maxHeight: embedSettings.windowHeight ?? "100%",
