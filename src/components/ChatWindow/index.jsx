@@ -6,7 +6,7 @@ import Sponsor from "../Sponsor";
 import { ChatHistoryLoading } from "./ChatContainer/ChatHistory";
 import ResetChat from "../ResetChat";
 
-export default function ChatWindow({ closeChat, settings, sessionId }) {
+export default function ChatWindow({ settings, sessionId }) {
   const { chatHistory, setChatHistory, loading } = useChatHistory(
     settings,
     sessionId
@@ -19,7 +19,6 @@ export default function ChatWindow({ closeChat, settings, sessionId }) {
           sessionId={sessionId}
           settings={settings}
           iconUrl={settings.brandImageUrl}
-          closeChat={closeChat}
           setChatHistory={setChatHistory}
         />
         <ChatHistoryLoading />
@@ -40,7 +39,6 @@ export default function ChatWindow({ closeChat, settings, sessionId }) {
           sessionId={sessionId}
           settings={settings}
           iconUrl={settings.brandImageUrl}
-          closeChat={closeChat}
           setChatHistory={setChatHistory}
         />
       )}
@@ -57,7 +55,6 @@ export default function ChatWindow({ closeChat, settings, sessionId }) {
           setChatHistory={setChatHistory}
           settings={settings}
           sessionId={sessionId}
-          closeChat={closeChat}
         />
       </div>
     </div>

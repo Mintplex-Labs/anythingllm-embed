@@ -6,7 +6,6 @@ import {
   Copy,
   DotsThreeOutlineVertical,
   Envelope,
-  X,
 } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 
@@ -14,7 +13,6 @@ export default function ChatWindowHeader({
   sessionId,
   settings = {},
   iconUrl = null,
-  closeChat,
   setChatHistory,
 }) {
   const [showingOptions, setShowOptions] = useState(false);
@@ -68,14 +66,6 @@ export default function ChatWindowHeader({
             <DotsThreeOutlineVertical size={20} weight="fill" />
           </button>
         )}
-        <button
-          type="button"
-          onClick={closeChat}
-          className="allm-bg-transparent hover:allm-cursor-pointer allm-border-none hover:allm-bg-gray-100 allm-rounded-sm allm-text-slate-800/60"
-          aria-label="Close"
-        >
-          <X size={20} weight="bold" />
-        </button>
       </div>
       <OptionsMenu
         settings={settings}

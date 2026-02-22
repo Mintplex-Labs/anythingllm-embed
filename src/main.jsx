@@ -5,17 +5,19 @@ import "./index.css";
 import { parseStylesSrc } from "./utils/constants.js";
 import { initI18n } from "./i18n.js";
 
-const appElement = document.createElement("div");
-document.body.appendChild(appElement);
+// Mount into the script tag's parent element so the chat renders inline,
+// like an iframe embedded in the page.
+const currentScript = document.currentScript;
+const appElement = currentScript?.parentElement || document.body;
 
 const scriptSettings = Object.assign(
   {},
-  document?.currentScript?.dataset || {}
+  currentScript?.dataset || {}
 );
 
 export const embedderSettings = {
   settings: scriptSettings,
-  stylesSrc: parseStylesSrc(document?.currentScript?.src),
+  stylesSrc: parseStylesSrc(currentScript?.src),
   USER_STYLES: {
     msgBg: scriptSettings?.userBgColor ?? "#3DBEF5",
     base: `allm-text-white allm-rounded-t-[18px] allm-rounded-bl-[18px] allm-rounded-br-[4px] allm-mx-[20px]`,
