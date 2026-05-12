@@ -113,6 +113,8 @@ REQUIRED data attributes:
 
 - `data-show-thoughts` — Allow users to see the AI's thought process, if applicable, in responses. If set to "false", users will only see a static "Thinking" indication without the explict thought content. If "true" the user will see the full thought content as well as the real response. Defaults to "false".
 
+- `data-first-message` — Allow the users to send a first message automatically on every startup.
+
 - `data-support-email` — Shows a support email that the user can used to draft an email via the "three dot" menu in the top right. Option will not appear if it is not set.
 
 ### `<iframe>` tag HTML embed

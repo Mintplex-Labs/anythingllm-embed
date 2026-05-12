@@ -37,6 +37,7 @@ const DEFAULT_SETTINGS = {
   supportEmail: null, // string of email for contact
   username: null, // The display or readable name set on a script
   defaultMessages: [], // list of strings for default messages.
+  firstMessage: null,
 };
 
 export default function useGetScriptAttributes() {

@@ -13,6 +13,19 @@ export default function useChatHistory(settings = null, sessionId = null) {
           settings,
           sessionId
         );
+
+        if (settings.firstMessage && formattedMessages.length === 0) {
+          formattedMessages.push({ content: settings.firstMessage, role: "user", sentAt: Math.floor(Date.now() / 1000) });
+          formattedMessages.push({
+            content: "",
+            role: "assistant",
+            pending: true,
+            userMessage: settings.firstMessage,
+            animate: true,
+            sentAt: Math.floor(Date.now() / 1000),
+          });
+        }
+
         setMessages(formattedMessages);
         setLoading(false);
       } catch (error) {

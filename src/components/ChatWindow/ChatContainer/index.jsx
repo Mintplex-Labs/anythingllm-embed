@@ -11,7 +11,7 @@ export default function ChatContainer({
   knownHistory = [],
 }) {
   const [message, setMessage] = useState("");
-  const [loadingResponse, setLoadingResponse] = useState(false);
+  const [loadingResponse, setLoadingResponse] = useState(settings.firstMessage ? true : false);
   const [chatHistory, setChatHistory] = useState(knownHistory);
 
   // Resync history if the ref to known history changes
