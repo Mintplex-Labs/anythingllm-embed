@@ -1,10 +1,13 @@
+export const ABORT_STREAM_EVENT = "abort-chat-stream";
+
 // For handling of synchronous chats that are not utilizing streaming or chat requests.
 export default function handleChat(
   chatResult,
   setLoadingResponse,
   setChatHistory,
   remHistory,
-  _chatHistory
+  _chatHistory,
+  setSocketId = null
 ) {
   const {
     uuid,
@@ -14,6 +17,7 @@ export default function handleChat(
     error,
     close,
     errorMsg = null,
+    websocketUUID = null,
   } = chatResult;
 
   // Preserve the sentAt from the last message in the chat history
@@ -109,6 +113,10 @@ export default function handleChat(
       });
     }
     setChatHistory([..._chatHistory]);
+  } else if (type === "agentInitWebsocketConnection" && setSocketId) {
+    setSocketId(websocketUUID);
+  } else if (type === "statusResponse") {
+    setLoadingResponse(false);
   }
 }
 
