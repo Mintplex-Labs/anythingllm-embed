@@ -1,6 +1,5 @@
 {
   "name": "anythingllm-embedded-chat",
-  "private": false,
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -20,16 +19,19 @@
     "@microsoft/fetch-event-source": "^2.0.1",
     "@phosphor-icons/react": "^2.0.13",
     "dompurify": "^3.0.8",
+    "file-saver": "^2.0.5",
     "he": "^1.2.0",
     "highlight.js": "^11.9.0",
+    "i18next": "^23.11.3",
+    "i18next-browser-languagedetector": "^7.2.1",
     "lodash.debounce": "^4.0.8",
     "markdown-it": "^13.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "uuid": "^9.0.1",
-    "i18next": "^23.11.3",
     "react-i18next": "^14.1.1",
-    "i18next-browser-languagedetector": "^7.2.1"
+    "recharts": "^3.2.1",
+    "recharts-to-png": "^3.0.1",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@rollup/plugin-image": "^3.0.3",
