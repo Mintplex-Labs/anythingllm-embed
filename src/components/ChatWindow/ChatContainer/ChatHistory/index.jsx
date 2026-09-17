@@ -5,6 +5,7 @@ import { ArrowDown, CircleNotch } from "@phosphor-icons/react";
 import { embedderSettings } from "@/main";
 import debounce from "lodash.debounce";
 import { SEND_TEXT_EVENT } from "..";
+import Chart from "@/components/Chart";
 
 export default function ChatHistory({ settings = {}, history = [] }) {
   const replyRef = useRef(null);
@@ -85,7 +86,9 @@ export default function ChatHistory({ settings = {}, history = [] }) {
               />
             );
           }
-
+          else if(typeof props.content === "object" && props.content.dataset && props.content.type) {
+              return <Chart key={props.uuid+ '-chart'} props={props} />
+          }
           return (
             <HistoricalMessage
               key={index}
