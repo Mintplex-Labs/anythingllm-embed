@@ -18,6 +18,7 @@ const DEFAULT_SETTINGS = {
   buttonColor: "#262626", // must be hex color code
   userBgColor: "#2C2F35", // user text bubble color
   assistantBgColor: "#2563eb", // assistant text bubble color
+  topHeaderBgColor: "#2563eb",
   noSponsor: null, // Shows sponsor in footer of chat
   sponsorText: "Powered by AnythingLLM", // default sponsor text
   sponsorLink: "https://anythingllm.com", // default sponsor link
