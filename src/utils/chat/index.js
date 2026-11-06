@@ -51,33 +51,19 @@ export default function handleChat(
     });
   } else if (type === "textResponse") {
     setLoadingResponse(false);
-    setChatHistory([
-      ...remHistory,
-      {
-        uuid,
-        content: textResponse,
-        role: "assistant",
-        sources,
-        closed: close,
-        error,
-        errorMsg,
-        animate: !close,
-        pending: false,
-        sentAt,
-      },
-    ]);
-    _chatHistory.push({
-      uuid,
-      content: textResponse,
-      role: "assistant",
-      sources,
-      closed: close,
-      error,
-      errorMsg,
-      animate: !close,
-      pending: false,
-      sentAt,
-    });
+      _chatHistory.push({
+          uuid: uuid,
+          content: textResponse,
+          role: "assistant",
+          sources,
+          closed: close,
+          error,
+          errorMsg,
+          animate: !close,
+          pending: false,
+          sentAt,
+      });
+      setChatHistory([..._chatHistory]);
   } else if (type === "textResponseChunk") {
     const chatIdx = _chatHistory.findIndex((chat) => chat.uuid === uuid);
     if (chatIdx !== -1) {
