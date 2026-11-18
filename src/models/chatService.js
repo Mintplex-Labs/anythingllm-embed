@@ -36,7 +36,7 @@ const ChatService = {
     embedSettings,
     message,
     handleChat,
-    ctrl = new AbortController()
+    ctrl
   ) {
     const { baseApiUrl, embedId, username } = embedSettings;
     const overrides = {

@@ -7,7 +7,6 @@ export default function PromptInput({
   message,
   submit,
   onChange,
-  inputDisabled,
   buttonDisabled,
 }) {
   const { t } = useTranslation();
@@ -16,11 +15,11 @@ export default function PromptInput({
   const [_, setFocused] = useState(false);
 
   useEffect(() => {
-    if (!inputDisabled && textareaRef.current) {
+    if (textareaRef.current) {
       textareaRef.current.focus();
     }
     resetTextAreaHeight();
-  }, [inputDisabled, buttonDisabled]);
+  }, [buttonDisabled]);
 
   useEffect(() => {
     if (message === "") resetTextAreaHeight();
@@ -77,7 +76,6 @@ export default function PromptInput({
                 onKeyDown={captureEnter}
                 onChange={onChange}
                 required={true}
-                disabled={inputDisabled}
                 onFocus={() => setFocused(true)}
                 onBlur={(e) => {
                   setFocused(false);
