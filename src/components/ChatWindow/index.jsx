@@ -1,16 +1,17 @@
 import ChatWindowHeader from "./Header";
-import SessionId from "../SessionId";
 import useChatHistory from "@/hooks/chat/useChatHistory";
 import ChatContainer from "./ChatContainer";
 import Sponsor from "../Sponsor";
 import { ChatHistoryLoading } from "./ChatContainer/ChatHistory";
 import ResetChat from "../ResetChat";
+import { useState } from "react";
 
 export default function ChatWindow({ closeChat, settings, sessionId }) {
   const { chatHistory, setChatHistory, loading } = useChatHistory(
     settings,
     sessionId
   );
+  const [scrolled, setScrolled] = useState(false);
 
   if (loading) {
     return (
@@ -23,9 +24,14 @@ export default function ChatWindow({ closeChat, settings, sessionId }) {
           setChatHistory={setChatHistory}
         />
         <ChatHistoryLoading />
-        <div className="allm-pt-4 allm-pb-2 allm-h-fit allm-gap-y-1">
-          <SessionId />
+        <div className="allm-flex allm-flex-col allm-items-center allm-gap-y-[6px] allm-pb-5 allm-h-fit">
           <Sponsor settings={settings} />
+          <ResetChat
+            setChatHistory={setChatHistory}
+            settings={settings}
+            sessionId={sessionId}
+            closeChat={closeChat}
+          />
         </div>
       </div>
     );
@@ -42,16 +48,18 @@ export default function ChatWindow({ closeChat, settings, sessionId }) {
           iconUrl={settings.brandImageUrl}
           closeChat={closeChat}
           setChatHistory={setChatHistory}
+          scrolled={scrolled}
         />
       )}
-      <div className="allm-flex-grow allm-overflow-y-auto">
+      <div className="allm-flex-1 allm-min-h-0 allm-overflow-hidden">
         <ChatContainer
           sessionId={sessionId}
           settings={settings}
           knownHistory={chatHistory}
+          onScrolled={setScrolled}
         />
       </div>
-      <div className="allm-mt-4 allm-pb-4 allm-h-fit allm-gap-y-2 allm-z-10">
+      <div className="allm-flex allm-flex-col allm-items-center allm-gap-y-[6px] allm-pt-[18px] allm-pb-5 allm-h-fit allm-z-10">
         <Sponsor settings={settings} />
         <ResetChat
           setChatHistory={setChatHistory}
