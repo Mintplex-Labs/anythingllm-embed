@@ -8,6 +8,7 @@ import { contrastTextColor } from "@/utils/color";
 import AssistantMessage from "../AssistantMessage";
 import ThoughtBubble from "../ThoughtBubble";
 import ErrorMessage from "../ErrorMessage";
+import Actions from "./Actions";
 
 const HistoricalMessage = forwardRef(
   (
@@ -19,6 +20,10 @@ const HistoricalMessage = forwardRef(
       error = false,
       errorMsg = null,
       sentAt,
+      chatId,
+      feedbackScore = null,
+      settings,
+      sessionId,
       thoughtsExpanded,
       onToggleThoughts,
     },
@@ -80,7 +85,7 @@ const HistoricalMessage = forwardRef(
     }
 
     return (
-      <AssistantMessage key={uuid} ref={ref} sentAt={sentAt}>
+      <AssistantMessage ref={ref} sentAt={sentAt}>
         {thoughts.length > 0 && (
           <ThoughtBubble
             thought={thoughts.join("\n\n")}
@@ -95,6 +100,12 @@ const HistoricalMessage = forwardRef(
               renderMarkdown(responseContent || message)
             ),
           }}
+        />
+        <Actions
+          settings={settings}
+          sessionId={sessionId}
+          chatId={chatId}
+          feedbackScore={feedbackScore}
         />
       </AssistantMessage>
     );

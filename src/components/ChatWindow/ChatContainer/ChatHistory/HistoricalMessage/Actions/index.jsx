@@ -1,43 +1,48 @@
-import useCopyText from "@/hooks/useCopyText";
-import { Check, ClipboardText } from "@phosphor-icons/react";
-import { memo } from "react";
-import { Tooltip } from "react-tooltip";
+import { useState } from "react";
+import { ThumbsUp } from "@phosphor-icons/react";
+import { useTranslation } from "react-i18next";
+import ChatService from "@/models/chatService";
 
-const Actions = ({ message }) => {
-  return (
-    <div className="allm-flex allm-justify-start allm-items-center allm-gap-x-4">
-      <CopyMessage message={message} />
-      {/* Other actions to go here later. */}
-    </div>
-  );
-};
+/**
+ * Thumbs up a visitor can toggle on a saved assistant reply.
+ * @param {object} props.settings - embed settings with `baseApiUrl` and `embedId`
+ * @param {string} props.sessionId
+ * @param {number} [props.chatId] - id of the saved chat, missing until the reply is stored
+ * @param {boolean|null} [props.feedbackScore]
+ */
+export default function Actions({
+  settings,
+  sessionId,
+  chatId,
+  feedbackScore = null,
+}) {
+  const { t } = useTranslation();
+  const [selected, setSelected] = useState(feedbackScore === true);
+  if (!chatId) return null;
 
-function CopyMessage({ message }) {
-  const { copied, copyText } = useCopyText();
+  const toggleFeedback = async () => {
+    const feedback = selected ? null : true;
+    // Updating before the request settles lets a second click undo the first.
+    setSelected(!selected);
+    const success = await ChatService.updateChatFeedback(
+      settings,
+      sessionId,
+      chatId,
+      feedback
+    );
+    if (!success) setSelected(selected);
+  };
+
   return (
-    <>
-      <div className="allm-mt-3 allm-relative">
-        <button
-          data-tooltip-id="copy-assistant-text"
-          data-tooltip-content="Copy"
-          className="allm-border-none allm-text-zinc-300"
-          onClick={() => copyText(message)}
-        >
-          {copied ? (
-            <Check size={18} className="allm-mb-1" />
-          ) : (
-            <ClipboardText size={18} className="allm-mb-1" />
-          )}
-        </button>
-      </div>
-      <Tooltip
-        id="copy-assistant-text"
-        place="bottom"
-        delayShow={300}
-        className="allm-tooltip !allm-text-xs"
-      />
-    </>
+    <button
+      type="button"
+      onClick={toggleFeedback}
+      title={t("chat.good-response")}
+      aria-label={t("chat.good-response")}
+      aria-pressed={selected}
+      className={`allm-self-start allm-flex allm-border-none allm-bg-transparent allm-p-0 allm-cursor-pointer allm-text-inherit ${selected ? "allm-opacity-100" : "allm-opacity-50 hover:allm-opacity-100"}`}
+    >
+      <ThumbsUp size={16} weight={selected ? "fill" : "regular"} />
+    </button>
   );
 }
-
-export default memo(Actions);

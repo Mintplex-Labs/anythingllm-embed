@@ -9,6 +9,7 @@ import { contrastTextColor } from "@/utils/color";
 
 export default function ChatHistory({
   settings = {},
+  sessionId,
   history = [],
   onScrolled = () => {},
 }) {
@@ -132,6 +133,8 @@ export default function ChatHistory({
                   sources={props.sources}
                   chatId={props.chatId}
                   feedbackScore={props.feedbackScore}
+                  settings={settings}
+                  sessionId={sessionId}
                   error={props.error}
                   errorMsg={props.errorMsg}
                   thoughtsExpanded={expandedThoughts[index]}
