@@ -134,6 +134,7 @@ export default function ChatContainer({
   }, [loadingResponse, chatHistory]);
 
   const handleAutofillEvent = (event) => {
+    if (loadingResponse) return;
     if (!event.detail.command) return;
     sendCommand(event.detail.command, [], []);
   };
@@ -143,13 +144,14 @@ export default function ChatContainer({
     return () => {
       window.removeEventListener(SEND_TEXT_EVENT, handleAutofillEvent);
     };
-  }, []);
+  }, [loadingResponse]);
 
   return (
     <div className="allm-h-full allm-w-full allm-flex allm-flex-col">
       <div className="allm-relative allm-flex-1 allm-min-h-0 allm-overflow-hidden">
         <ChatHistory
           settings={settings}
+          sessionId={sessionId}
           history={chatHistory}
           onScrolled={onScrolled}
         />

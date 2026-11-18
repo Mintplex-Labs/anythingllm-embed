@@ -31,6 +31,23 @@ const ChatService = {
       .then((res) => res.ok)
       .catch(() => false);
   },
+  updateChatFeedback: async function (
+    embedSettings,
+    sessionId,
+    chatId,
+    feedback
+  ) {
+    const { baseApiUrl, embedId } = embedSettings;
+    return await fetch(
+      `${baseApiUrl}/${embedId}/${sessionId}/chat-feedback/${chatId}`,
+      {
+        method: "POST",
+        body: JSON.stringify({ feedback }),
+      }
+    )
+      .then((res) => res.ok)
+      .catch(() => false);
+  },
   streamChat: async function (
     sessionId,
     embedSettings,
