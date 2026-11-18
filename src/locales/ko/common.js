@@ -7,6 +7,7 @@ const TRANSLATIONS = {
     "message-copied": "복사되었습니다!",
     "session-id": "세션 ID",
     "email-support": "이메일 지원",
+    "good-response": "좋은 답변",
   },
 };
 
