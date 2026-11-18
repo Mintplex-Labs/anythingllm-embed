@@ -31,7 +31,13 @@ const ChatService = {
       .then((res) => res.ok)
       .catch(() => false);
   },
-  streamChat: async function (sessionId, embedSettings, message, handleChat) {
+  streamChat: async function (
+    sessionId,
+    embedSettings,
+    message,
+    handleChat,
+    ctrl = new AbortController()
+  ) {
     const { baseApiUrl, embedId, username } = embedSettings;
     const overrides = {
       prompt: embedSettings?.prompt ?? null,
@@ -39,7 +45,6 @@ const ChatService = {
       temperature: embedSettings?.temperature ?? null,
     };
 
-    const ctrl = new AbortController();
     await fetchEventSource(`${baseApiUrl}/${embedId}/stream-chat`, {
       method: "POST",
       body: JSON.stringify({

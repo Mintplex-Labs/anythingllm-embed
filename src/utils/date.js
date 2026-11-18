@@ -29,3 +29,22 @@ export function formatDate(sentAt) {
     return "";
   }
 }
+
+/**
+ * Formats a unix timestamp as a short day label, eg: `Sat, Dec 9`.
+ * @param {number} sentAt - unix timestamp in seconds
+ * @returns {string}
+ */
+export function formatDay(sentAt) {
+  if (!sentAt) return "";
+
+  try {
+    return new Date(sentAt * 1000).toLocaleDateString(resolveLocale(), {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
+  } catch (e) {
+    return "";
+  }
+}

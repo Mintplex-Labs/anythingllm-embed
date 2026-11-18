@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ChatHistory from "./ChatHistory";
 import PromptInput from "./PromptInput";
 import handleChat from "@/utils/chat";
@@ -9,14 +9,18 @@ export default function ChatContainer({
   sessionId,
   settings,
   knownHistory = [],
+  onScrolled,
 }) {
   const [message, setMessage] = useState("");
   const [loadingResponse, setLoadingResponse] = useState(false);
   const [chatHistory, setChatHistory] = useState(knownHistory);
+  const streamCtrl = useRef(null);
 
   // Resync history if the ref to known history changes
   // eg: cleared.
   useEffect(() => {
+    // A reply still streaming belongs to the history being replaced.
+    streamCtrl.current?.abort();
     if (knownHistory.length !== chatHistory.length)
       setChatHistory([...knownHistory]);
   }, [knownHistory]);
@@ -28,7 +32,8 @@ export default function ChatContainer({
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!message || message === "") return false;
+    if (loadingResponse) return false;
+    if (!message || message.trim() === "") return false;
 
     const prevChatHistory = [
       ...chatHistory,
@@ -65,12 +70,14 @@ export default function ChatContainer({
         },
       ];
     } else {
-      prevChatHistory = [
-        ...chatHistory,
+      const sentAt = Math.floor(Date.now() / 1000);
+      prevChatHistory = (currentHistory) => [
+        ...currentHistory,
         {
           content: command,
           role: "user",
           attachments,
+          sentAt,
         },
         {
           content: "",
@@ -78,6 +85,7 @@ export default function ChatContainer({
           pending: true,
           userMessage: command,
           animate: true,
+          sentAt,
         },
       ];
     }
@@ -93,24 +101,32 @@ export default function ChatContainer({
       const remHistory = chatHistory.length > 0 ? chatHistory.slice(0, -1) : [];
       var _chatHistory = [...remHistory];
 
-      if (!promptMessage || !promptMessage?.userMessage) {
+      if (!promptMessage) {
         setLoadingResponse(false);
         return false;
       }
+      // The reply is already streaming in, so it owns the loading state.
+      if (!promptMessage?.userMessage) return false;
 
+      const ctrl = new AbortController();
+      streamCtrl.current = ctrl;
       await ChatService.streamChat(
         sessionId,
         settings,
         promptMessage.userMessage,
-        (chatResult) =>
+        (chatResult) => {
+          if (ctrl.signal.aborted) return;
           handleChat(
             chatResult,
             setLoadingResponse,
             setChatHistory,
             remHistory,
             _chatHistory
-          )
+          );
+        },
+        ctrl
       );
+      setLoadingResponse(false);
       return;
     }
 
@@ -131,8 +147,12 @@ export default function ChatContainer({
 
   return (
     <div className="allm-h-full allm-w-full allm-flex allm-flex-col">
-      <div className="allm-flex-1 allm-min-h-0 allm-mb-8">
-        <ChatHistory settings={settings} history={chatHistory} />
+      <div className="allm-relative allm-flex-1 allm-min-h-0 allm-overflow-hidden">
+        <ChatHistory
+          settings={settings}
+          history={chatHistory}
+          onScrolled={onScrolled}
+        />
       </div>
       <div className="allm-flex-shrink-0 allm-mt-auto">
         <PromptInput
@@ -140,7 +160,6 @@ export default function ChatContainer({
           message={message}
           submit={handleSubmit}
           onChange={handleMessageChange}
-          inputDisabled={loadingResponse}
           buttonDisabled={loadingResponse}
         />
       </div>

@@ -1,54 +1,46 @@
-import { forwardRef, memo, useState } from "react";
-import { Warning, CircleNotch, CaretDown } from "@phosphor-icons/react";
+import { forwardRef, memo } from "react";
+import { CircleNotch } from "@phosphor-icons/react";
 import renderMarkdown from "@/utils/chat/markdown";
-import { embedderSettings } from "@/main";
-import AnythingLLMIcon from "@/assets/anything-llm-icon.svg";
-import { formatDate } from "@/utils/date";
+import AssistantMessage from "../AssistantMessage";
+import ThoughtBubble from "../ThoughtBubble";
+import ErrorMessage from "../ErrorMessage";
 
 const ThinkingIndicator = ({ hasThought }) => {
   if (hasThought) {
     return (
-      <div className="allm-flex allm-items-center allm-gap-x-2 allm-text-gray-500">
+      <div className="allm-flex allm-items-center allm-gap-x-2 allm-text-slate-500">
         <CircleNotch size={16} className="allm-animate-spin" />
-        <span className="allm-text-sm">Thinking...</span>
+        <span className="allm-text-sm allm-leading-5">Thinking...</span>
       </div>
     );
   }
-  return <div className="allm-mx-4 allm-my-1 allm-dot-falling"></div>;
-};
-
-const ThoughtBubble = ({ thought }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  if (!thought || !embedderSettings.settings.showThoughts) return null;
-
-  const cleanThought = thought.replace(/<\/?think>/g, "").trim();
-
   return (
-    <div className="allm-mb-2">
-      <div
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="allm-cursor-pointer allm-flex allm-items-center allm-gap-x-1.5 allm-text-gray-400 hover:allm-text-gray-500"
-      >
-        <CaretDown
-          size={14}
-          weight="bold"
-          className={`allm-transition-transform ${isExpanded ? "allm-rotate-180" : ""}`}
+    <div className="allm-flex allm-items-center allm-gap-x-1 allm-h-5">
+      {[0, 200, 400].map((delay) => (
+        <div
+          key={delay}
+          style={{ animationDelay: `${delay}ms` }}
+          className="allm-w-[6px] allm-h-[6px] allm-rounded-full allm-bg-slate-500 allm-animate-pulse"
         />
-        <span className="allm-text-xs allm-font-medium">View thoughts</span>
-      </div>
-      {isExpanded && (
-        <div className="allm-mt-2 allm-mb-3 allm-pl-0 allm-border-l-2 allm-border-gray-200">
-          <div className="allm-text-xs allm-text-gray-600 allm-font-mono allm-whitespace-pre-wrap">
-            {cleanThought}
-          </div>
-        </div>
-      )}
+      ))}
     </div>
   );
 };
 
 const PromptReply = forwardRef(
-  ({ uuid, reply, pending, error, sources = [], sentAt }, ref) => {
+  (
+    {
+      uuid,
+      reply,
+      pending,
+      error,
+      sources = [],
+      sentAt,
+      thoughtsExpanded,
+      onToggleThoughts,
+    },
+    ref
+  ) => {
     if (!reply && sources.length === 0 && !pending && !error) return null;
     if (error) console.error(`ANYTHING_LLM_CHAT_WIDGET_ERROR: ${error}`);
 
@@ -82,103 +74,44 @@ const PromptReply = forwardRef(
 
     if (isThinking) {
       return (
-        <div className="allm-py-[5px]">
-          <div className="allm-text-[10px] allm-text-gray-400 allm-ml-[54px] allm-mr-6 allm-mb-2 allm-text-left allm-font-sans">
-            {embedderSettings.settings.assistantName ||
-              "Anything LLM Chat Assistant"}
-          </div>
-          <div className="allm-flex allm-items-start allm-w-full allm-h-fit allm-justify-start">
-            <img
-              src={embedderSettings.settings.assistantIcon || AnythingLLMIcon}
-              alt="Anything LLM Icon"
-              className="allm-w-9 allm-h-9 allm-flex-shrink-0 allm-ml-2"
+        <AssistantMessage>
+          {hasIncompleteThinkTag && streamingThought && (
+            <ThoughtBubble
+              thought={streamingThought}
+              expanded={thoughtsExpanded}
+              onToggle={onToggleThoughts}
+              streaming
             />
-            <div
-              style={{
-                wordBreak: "break-word",
-                backgroundColor: embedderSettings.ASSISTANT_STYLES.msgBg,
-              }}
-              className={`allm-py-[11px] allm-px-4 allm-flex allm-flex-col ${embedderSettings.ASSISTANT_STYLES.base} allm-shadow-[0_4px_14px_rgba(0,0,0,0.25)]`}
-            >
-              {hasIncompleteThinkTag && streamingThought && (
-                <ThoughtBubble thought={streamingThought} />
-              )}
-              <ThinkingIndicator hasThought={hasIncompleteThinkTag} />
-            </div>
-          </div>
-        </div>
+          )}
+          <ThinkingIndicator hasThought={hasIncompleteThinkTag} />
+        </AssistantMessage>
       );
     }
 
     if (error) {
       return (
-        <div className="allm-py-[5px]">
-          <div className="allm-text-[10px] allm-text-gray-400 allm-ml-[54px] allm-mr-6 allm-mb-2 allm-text-left allm-font-sans">
-            {embedderSettings.settings.assistantName ||
-              "Anything LLM Chat Assistant"}
-          </div>
-          <div className="allm-flex allm-items-start allm-w-full allm-h-fit allm-justify-start">
-            <img
-              src={embedderSettings.settings.assistantIcon || AnythingLLMIcon}
-              alt="Anything LLM Icon"
-              className="allm-w-9 allm-h-9 allm-flex-shrink-0 allm-ml-2"
-            />
-            <div className="allm-py-[11px] allm-px-4 allm-rounded-lg allm-flex allm-flex-col allm-bg-red-200 allm-shadow-[0_4px_14px_rgba(0,0,0,0.25)] allm-mr-[37px] allm-ml-[9px]">
-              <div className="allm-flex allm-gap-x-5">
-                <span className="allm-inline-block allm-p-2 allm-rounded-lg allm-bg-red-50 allm-text-red-500">
-                  <Warning className="allm-h-4 allm-w-4 allm-mb-1 allm-inline-block" />{" "}
-                  Could not respond to message.
-                  <span className="allm-text-xs">Server error</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <AssistantMessage plain>
+          <ErrorMessage />
+        </AssistantMessage>
       );
     }
 
     return (
-      <div className="allm-py-[5px]">
-        <div className="allm-text-[10px] allm-text-gray-400 allm-ml-[54px] allm-mr-6 allm-mb-2 allm-text-left allm-font-sans">
-          {embedderSettings.settings.assistantName ||
-            "Anything LLM Chat Assistant"}
-        </div>
-        <div
-          key={uuid}
-          ref={ref}
-          className="allm-flex allm-items-start allm-w-full allm-h-fit allm-justify-start"
-        >
-          <img
-            src={embedderSettings.settings.assistantIcon || AnythingLLMIcon}
-            alt="Anything LLM Icon"
-            className="allm-w-9 allm-h-9 allm-flex-shrink-0 allm-ml-2"
+      <AssistantMessage key={uuid} ref={ref} sentAt={sentAt}>
+        {thoughts.length > 0 && (
+          <ThoughtBubble
+            thought={thoughts.join("\n\n")}
+            expanded={thoughtsExpanded}
+            onToggle={onToggleThoughts}
           />
-          <div
-            style={{
-              wordBreak: "break-word",
-              backgroundColor: embedderSettings.ASSISTANT_STYLES.msgBg,
-            }}
-            className={`allm-py-[11px] allm-px-4 allm-flex allm-flex-col ${embedderSettings.ASSISTANT_STYLES.base} allm-shadow-[0_4px_14px_rgba(0,0,0,0.25)]`}
-          >
-            {thoughts.length > 0 && (
-              <ThoughtBubble thought={thoughts.join("\n\n")} />
-            )}
-            <div className="allm-flex allm-gap-x-5">
-              <span
-                className="allm-font-sans allm-reply allm-whitespace-pre-line allm-font-normal allm-text-sm allm-md:text-sm allm-flex allm-flex-col allm-gap-y-1"
-                dangerouslySetInnerHTML={{
-                  __html: renderMarkdown(responseContent || ""),
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        {sentAt && (
-          <div className="allm-text-[10px] allm-text-gray-400 allm-ml-[54px] allm-mr-6 allm-mt-2 allm-text-left allm-font-sans">
-            {formatDate(sentAt)}
-          </div>
         )}
-      </div>
+        <span
+          className="allm-reply allm-whitespace-pre-line allm-font-medium allm-text-sm allm-leading-[20px] allm-flex allm-flex-col allm-gap-y-1"
+          dangerouslySetInnerHTML={{
+            __html: renderMarkdown(responseContent || ""),
+          }}
+        />
+      </AssistantMessage>
     );
   }
 );

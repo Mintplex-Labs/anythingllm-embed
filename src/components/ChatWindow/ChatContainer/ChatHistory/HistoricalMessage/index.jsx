@@ -1,39 +1,13 @@
-import React, { memo, forwardRef, useState } from "react";
-import { Warning, CaretDown } from "@phosphor-icons/react";
+import React, { memo, forwardRef } from "react";
 import renderMarkdown from "@/utils/chat/markdown";
 import DOMPurify from "@/utils/chat/purify";
 import { embedderSettings } from "@/main";
 import { v4 } from "uuid";
-import AnythingLLMIcon from "@/assets/anything-llm-icon.svg";
 import { formatDate } from "@/utils/date";
-
-const ThoughtBubble = ({ thought }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  if (!thought || !embedderSettings.settings.showThoughts) return null;
-
-  return (
-    <div className="allm-mb-2">
-      <div
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="allm-cursor-pointer allm-flex allm-items-center allm-gap-x-1.5 allm-text-gray-400 hover:allm-text-gray-500"
-      >
-        <CaretDown
-          size={14}
-          weight="bold"
-          className={`allm-transition-transform ${isExpanded ? "allm-rotate-180" : ""}`}
-        />
-        <span className="allm-text-xs allm-font-medium">View thoughts</span>
-      </div>
-      {isExpanded && (
-        <div className="allm-mt-2 allm-mb-3 allm-pl-0 allm-border-l-2 allm-border-gray-200">
-          <div className="allm-text-xs allm-text-gray-600 allm-font-mono allm-whitespace-pre-wrap">
-            {thought.trim()}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
+import { contrastTextColor } from "@/utils/color";
+import AssistantMessage from "../AssistantMessage";
+import ThoughtBubble from "../ThoughtBubble";
+import ErrorMessage from "../ErrorMessage";
 
 const HistoricalMessage = forwardRef(
   (
@@ -45,6 +19,8 @@ const HistoricalMessage = forwardRef(
       error = false,
       errorMsg = null,
       sentAt,
+      thoughtsExpanded,
+      onToggleThoughts,
     },
     ref
   ) => {
@@ -64,83 +40,63 @@ const HistoricalMessage = forwardRef(
       ?.replace(/<think>[\s\S]*?<\/think>/g, "")
       .trim();
 
-    return (
-      <div className="allm-py-[5px]">
-        {role === "assistant" && (
-          <div className="allm-text-[10px] allm-text-gray-400 allm-ml-[54px] allm-mr-6 allm-mb-2 allm-text-left allm-font-sans">
-            {embedderSettings.settings.assistantName ||
-              "Anything LLM Chat Assistant"}
-          </div>
-        )}
+    if (role === "user") {
+      return (
         <div
           key={uuid}
           ref={ref}
-          className={`allm-flex allm-items-start allm-w-full allm-h-fit ${
-            role === "user" ? "allm-justify-end" : "allm-justify-start"
-          }`}
+          className="allm-flex allm-flex-col allm-items-end allm-gap-y-[5px] allm-pl-[60px] allm-pr-5 allm-font-sans"
         >
-          {role === "assistant" && (
-            <img
-              src={embedderSettings.settings.assistantIcon || AnythingLLMIcon}
-              alt="Anything LLM Icon"
-              className="allm-w-9 allm-h-9 allm-flex-shrink-0 allm-ml-2"
-              id="anything-llm-icon"
-            />
+          {sentAt && (
+            <p className="allm-m-0 allm-text-[10px] allm-leading-[15px] allm-tracking-[0.1px] allm-text-slate-500">
+              {formatDate(sentAt)}
+            </p>
           )}
           <div
             style={{
               wordBreak: "break-word",
-              backgroundColor:
-                role === "user"
-                  ? embedderSettings.USER_STYLES.msgBg
-                  : embedderSettings.ASSISTANT_STYLES.msgBg,
+              backgroundColor: embedderSettings.USER_STYLES.msgBg,
+              color: contrastTextColor(embedderSettings.USER_STYLES.msgBg),
             }}
-            className={`allm-py-[11px] allm-px-4 allm-flex allm-flex-col allm-font-sans ${
-              error
-                ? "allm-bg-red-200 allm-rounded-lg allm-mr-[37px] allm-ml-[9px]"
-                : role === "user"
-                  ? `${embedderSettings.USER_STYLES.base} allm-anything-llm-user-message`
-                  : `${embedderSettings.ASSISTANT_STYLES.base} allm-anything-llm-assistant-message`
-            } allm-shadow-[0_4px_14px_rgba(0,0,0,0.25)]`}
+            className="allm-max-w-full allm-box-border allm-p-3 allm-rounded-xl allm-anything-llm-user-message"
           >
-            <div className="allm-flex allm-flex-col">
-              {error ? (
-                <div className="allm-p-2 allm-rounded-lg allm-bg-red-50 allm-text-red-500">
-                  <span className="allm-inline-block">
-                    <Warning className="allm-h-4 allm-w-4 allm-mb-1 allm-inline-block" />{" "}
-                    Could not respond to message.
-                  </span>
-                  <p className="allm-text-xs allm-font-mono allm-mt-2 allm-border-l-2 allm-border-red-500 allm-pl-2 allm-bg-red-300 allm-p-2 allm-rounded-sm">
-                    {errorMsg || "Server error"}
-                  </p>
-                </div>
-              ) : (
-                <>
-                  {role === "assistant" && thoughts.length > 0 && (
-                    <ThoughtBubble thought={thoughts.join("\n\n")} />
-                  )}
-                  <span
-                    className={`allm-whitespace-pre-line allm-flex allm-flex-col allm-gap-y-1 ${textSize} allm-leading-[20px]`}
-                    dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(
-                        renderMarkdown(responseContent || message)
-                      ),
-                    }}
-                  />
-                </>
-              )}
-            </div>
+            <span
+              className={`allm-whitespace-pre-line allm-flex allm-flex-col allm-gap-y-1 allm-font-medium ${textSize} allm-leading-[20px]`}
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(renderMarkdown(message)),
+              }}
+            />
           </div>
         </div>
+      );
+    }
 
-        {sentAt && (
-          <div
-            className={`allm-font-sans allm-text-[10px] allm-text-gray-400 allm-ml-[54px] allm-mr-6 allm-mt-2 ${role === "user" ? "allm-text-right" : "allm-text-left"}`}
-          >
-            {formatDate(sentAt)}
-          </div>
+    if (error) {
+      return (
+        <AssistantMessage key={uuid} ref={ref} sentAt={sentAt} plain>
+          <ErrorMessage errorMsg={errorMsg} />
+        </AssistantMessage>
+      );
+    }
+
+    return (
+      <AssistantMessage key={uuid} ref={ref} sentAt={sentAt}>
+        {thoughts.length > 0 && (
+          <ThoughtBubble
+            thought={thoughts.join("\n\n")}
+            expanded={thoughtsExpanded}
+            onToggle={onToggleThoughts}
+          />
         )}
-      </div>
+        <span
+          className={`allm-whitespace-pre-line allm-flex allm-flex-col allm-gap-y-1 allm-font-medium ${textSize} allm-leading-[20px]`}
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(
+              renderMarkdown(responseContent || message)
+            ),
+          }}
+        />
+      </AssistantMessage>
     );
   }
 );
