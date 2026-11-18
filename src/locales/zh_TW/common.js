@@ -7,6 +7,7 @@ const TRANSLATIONS = {
     "message-copied": "已複製！",
     "session-id": "工作階段 ID",
     "email-support": "電子郵件支援",
+    "good-response": "良好的回應",
   },
 };
 
