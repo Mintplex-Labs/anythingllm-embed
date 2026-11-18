@@ -91,7 +91,7 @@ REQUIRED data attributes:
 
 - `data-assistant-name` - Set the chat assistant name that appears above each chat message. Default `AnythingLLM Chat Assistant`
 
-- `data-assistant-icon` - Set the icon of the chat assistant.
+- `data-assistant-icon` - Set the icon of the chat assistant. Falls back to `data-brand-image-url` when unset.
 
 - `data-window-height` - Set the chat window height. **must include CSS suffix:** `px`,`%`,`rem`
 

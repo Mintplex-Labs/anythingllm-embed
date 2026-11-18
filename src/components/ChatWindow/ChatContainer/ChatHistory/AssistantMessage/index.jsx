@@ -31,9 +31,13 @@ const AssistantMessage = forwardRef(
           className="allm-flex allm-items-start allm-gap-x-[10px] allm-w-full"
         >
           <img
-            src={embedderSettings.settings.assistantIcon || AnythingLLMAvatar}
+            src={
+              embedderSettings.settings.assistantIcon ||
+              embedderSettings.settings.brandImageUrl ||
+              AnythingLLMAvatar
+            }
             alt="Anything LLM Icon"
-            className="allm-w-5 allm-h-5 allm-rounded-full allm-flex-shrink-0"
+            className="allm-w-5 allm-h-5 allm-rounded-full allm-flex-shrink-0 allm-object-contain"
             id="anything-llm-icon"
           />
           <AssistantContent bubbleColor={bubbleColor}>
