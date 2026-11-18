@@ -7,6 +7,7 @@ const TRANSLATIONS = {
     "message-copied": "הועתק!",
     "session-id": "מזהה סשן",
     "email-support": 'תמיכה בדוא"ל',
+    "good-response": "תגובה טובה",
   },
 };
 

@@ -7,6 +7,7 @@ const TRANSLATIONS = {
     "message-copied": "Copiato!",
     "session-id": "ID sessione",
     "email-support": "Supporto e-mail",
+    "good-response": "Risposta appropriata",
   },
 };
 
