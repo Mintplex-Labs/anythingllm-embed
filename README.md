@@ -29,6 +29,8 @@ _by using the AnythingLLM embedded chat widget you are responsible for securing 
 
 While in development mode (`yarn dev`) the script will rebuild on any changes to files in the `src` directory. Ensure that the required keys for the development embed are accurate and set.
 
+To check the widget across configurations, open `http://localhost:3080/layouts/` while `yarn dev` is running. Enter an embed ID from your AnythingLLM instance, then step through layouts covering positions, colors, white-labeling, window sizes and more. Add a layout by editing the `LAYOUTS` list in `layouts/index.html`.
+
 `yarn build` will compile and minify your build of the script. You can then host and link your built script wherever you like.
 
 ## Integrations & Embed Types
