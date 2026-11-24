@@ -16,8 +16,6 @@ const DEFAULT_SETTINGS = {
   brandImageUrl: null, // will be forced into 100x50px container
   greeting: null, // empty chat window greeting.
   buttonColor: "#262626", // must be hex color code
-  userBgColor: "#2C2F35", // user text bubble color
-  assistantBgColor: "#2563eb", // assistant text bubble color
   noSponsor: null, // Shows sponsor in footer of chat
   sponsorText: "Powered by AnythingLLM", // default sponsor text
   sponsorLink: "https://anythingllm.com", // default sponsor link
