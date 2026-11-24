@@ -25,11 +25,11 @@ _by using the AnythingLLM embedded chat widget you are responsible for securing 
 
 - `cd embed` from the root of the repo
 - `yarn` to install all dev and script dependencies
-- `yarn dev` to boot up an example HTML page to use the chat embed widget.
+- `yarn dev` to boot up the development page at `http://localhost:3080`.
 
-While in development mode (`yarn dev`) the script will rebuild on any changes to files in the `src` directory. Ensure that the required keys for the development embed are accurate and set.
+While in development mode (`yarn dev`) the script will rebuild on any changes to files in the `src` directory.
 
-To check the widget across configurations, open `http://localhost:3080/layouts/` while `yarn dev` is running. Enter an embed ID from your AnythingLLM instance, then step through layouts covering positions, colors, white-labeling, window sizes and more. Add a layout by editing the `LAYOUTS` list in `layouts/index.html`.
+The development page is a gallery of widget layouts. Enter an embed ID from your AnythingLLM instance, then step through layouts covering positions, colors, white-labeling, window sizes and more. Add a layout by editing the `LAYOUTS` list in `index.html`.
 
 `yarn build` will compile and minify your build of the script. You can then host and link your built script wherever you like.
 
