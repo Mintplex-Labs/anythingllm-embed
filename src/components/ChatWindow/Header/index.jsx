@@ -1,15 +1,19 @@
-import AnythingLLMIcon from "@/assets/anything-llm-icon.svg";
+import AnythingLLMMark from "@/components/AnythingLLMMark";
+import AnythingLLMWordmark from "@/assets/anything-llm-wordmark.svg";
 import ChatService from "@/models/chatService";
 import {
   ArrowCounterClockwise,
   Check,
   Copy,
-  DotsThreeOutlineVertical,
+  DotsThreeVertical,
   Envelope,
   X,
 } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+const MENU_ITEM_CLASSES =
+  "hover:allm-cursor-pointer allm-bg-transparent allm-border-none allm-box-border allm-w-full allm-px-[6px] allm-py-1 allm-rounded-md allm-flex allm-items-center allm-gap-x-2 allm-font-sans allm-text-sm allm-leading-5 allm-font-semibold allm-text-slate-700 allm-no-underline allm-whitespace-nowrap hover:allm-bg-slate-100 active:allm-bg-slate-200 allm-transition-colors";
 
 export default function ChatWindowHeader({
   sessionId,
@@ -17,6 +21,7 @@ export default function ChatWindowHeader({
   iconUrl = null,
   closeChat,
   setChatHistory,
+  scrolled = false,
 }) {
   const [showingOptions, setShowOptions] = useState(false);
   const menuRef = useRef();
@@ -46,33 +51,26 @@ export default function ChatWindowHeader({
 
   return (
     <div
-      style={{ borderBottom: "1px solid #E9E9E9" }}
-      className="allm-flex allm-items-center allm-relative allm-rounded-t-2xl"
+      className={`allm-flex allm-items-center allm-justify-between allm-relative allm-flex-shrink-0 allm-box-border allm-h-[60px] allm-pl-[25px] allm-pr-4 allm-rounded-t-2xl allm-border-0 allm-border-b allm-border-solid allm-transition-colors ${scrolled ? "allm-border-slate-300" : "allm-border-[#E9E9E9]"}`}
       id="anything-llm-header"
     >
-      <div className="allm-flex allm-justify-center allm-items-center allm-w-full allm-h-[76px]">
-        <img
-          style={{ maxWidth: 48, maxHeight: 48 }}
-          src={iconUrl ?? AnythingLLMIcon}
-          alt={iconUrl ? "Brand" : "AnythingLLM Logo"}
-        />
-      </div>
-      <div className="allm-absolute allm-right-0 allm-flex allm-gap-x-1 allm-items-center allm-px-[22px]">
+      <Brand iconUrl={iconUrl} />
+      <div className="allm-flex allm-items-center">
         {settings.loaded && (
           <button
             ref={buttonRef}
             type="button"
             onClick={() => setShowOptions(!showingOptions)}
-            className="allm-bg-transparent hover:allm-cursor-pointer allm-border-none hover:allm-bg-gray-100 allm-rounded-sm allm-text-slate-800/60"
+            className="allm-bg-transparent hover:allm-cursor-pointer allm-border-none allm-p-1 allm-flex allm-items-center hover:allm-bg-slate-100 active:allm-bg-slate-200 allm-rounded-md allm-text-slate-500 hover:allm-text-slate-700 allm-transition-colors"
             aria-label="Options"
           >
-            <DotsThreeOutlineVertical size={20} weight="fill" />
+            <DotsThreeVertical size={18} weight="bold" />
           </button>
         )}
         <button
           type="button"
           onClick={closeChat}
-          className="allm-bg-transparent hover:allm-cursor-pointer allm-border-none hover:allm-bg-gray-100 allm-rounded-sm allm-text-slate-800/60"
+          className="allm-bg-transparent hover:allm-cursor-pointer allm-border-none allm-p-1 allm-flex allm-items-center hover:allm-bg-slate-100 active:allm-bg-slate-200 allm-rounded-md allm-text-slate-500 hover:allm-text-slate-700 allm-transition-colors"
           aria-label="Close"
         >
           <X size={20} weight="bold" />
@@ -89,6 +87,21 @@ export default function ChatWindowHeader({
   );
 }
 
+function Brand({ iconUrl = null }) {
+  if (iconUrl) {
+    return (
+      <img style={{ maxWidth: 160, maxHeight: 32 }} src={iconUrl} alt="Brand" />
+    );
+  }
+
+  return (
+    <div className="allm-flex allm-items-center allm-gap-x-2">
+      <AnythingLLMMark className="allm-w-5 allm-text-slate-950" />
+      <img src={AnythingLLMWordmark} alt="AnythingLLM" />
+    </div>
+  );
+}
+
 function OptionsMenu({ settings, showing, resetChat, sessionId, menuRef }) {
   if (!showing) return null;
   const { t } = useTranslation();
@@ -96,14 +109,11 @@ function OptionsMenu({ settings, showing, resetChat, sessionId, menuRef }) {
   return (
     <div
       ref={menuRef}
-      className="allm-bg-white allm-absolute allm-z-10 allm-flex allm-flex-col allm-gap-y-1 allm-rounded-xl allm-shadow-lg allm-top-[64px] allm-right-[46px]"
+      className="allm-bg-white allm-absolute allm-z-20 allm-flex allm-flex-col allm-items-stretch allm-px-[6px] allm-py-2 allm-rounded-xl allm-border allm-border-solid allm-border-slate-300 allm-top-[54px] allm-right-[34px]"
     >
-      <button
-        onClick={resetChat}
-        className="hover:allm-cursor-pointer allm-bg-white allm-gap-x-[12px] hover:allm-bg-gray-100 allm-rounded-lg allm-border-none allm-flex allm-items-center allm-text-base allm-text-[#7A7D7E] allm-font-bold allm-px-4"
-      >
-        <ArrowCounterClockwise size={24} />
-        <p className="allm-text-[14px]">{t("chat.reset-chat")}</p>
+      <button onClick={resetChat} className={MENU_ITEM_CLASSES}>
+        <ArrowCounterClockwise size={18} />
+        <p className="allm-m-0">{t("chat.reset-chat")}</p>
       </button>
       <ContactSupport email={settings.supportEmail} />
       <SessionID sessionId={sessionId} />
@@ -124,22 +134,17 @@ function SessionID({ sessionId }) {
 
   if (sessionIdCopied) {
     return (
-      <div className="hover:allm-cursor-pointer allm-bg-white allm-gap-x-[12px] hover:allm-bg-gray-100 allm-rounded-lg allm-border-none allm-flex allm-items-center allm-text-base allm-text-[#7A7D7E] allm-font-bold allm-px-4">
-        <Check size={24} />
-        <p className="allm-text-[14px] allm-font-sans">
-          {t("chat.message-copied")}
-        </p>
+      <div className={MENU_ITEM_CLASSES}>
+        <Check size={18} />
+        <p className="allm-m-0">{t("chat.message-copied")}</p>
       </div>
     );
   }
 
   return (
-    <button
-      onClick={copySessionId}
-      className="hover:allm-cursor-pointer allm-bg-white allm-gap-x-[12px] hover:allm-bg-gray-100 allm-rounded-lg allm-border-none allm-flex allm-items-center allm-text-base allm-text-[#7A7D7E] allm-font-bold allm-px-4"
-    >
-      <Copy size={24} />
-      <p className="allm-text-[14px]">{t("chat.session-id")}</p>
+    <button onClick={copySessionId} className={MENU_ITEM_CLASSES}>
+      <Copy size={18} />
+      <p className="allm-m-0">{t("chat.session-id")}</p>
     </button>
   );
 }
@@ -151,12 +156,10 @@ function ContactSupport({ email = null }) {
   return (
     <a
       href={`mailto:${email}?Subject=${encodeURIComponent(subject)}`}
-      className="allm-no-underline hover:allm-underline hover:allm-cursor-pointer allm-bg-white allm-gap-x-[12px] hover:allm-bg-gray-100 allm-rounded-lg allm-border-none allm-flex allm-items-center allm-text-base allm-text-[#7A7D7E] allm-font-bold allm-px-4"
+      className={MENU_ITEM_CLASSES}
     >
-      <Envelope size={24} />
-      <p className="allm-text-[14px] allm-font-sans">
-        {t("chat.email-support")}
-      </p>
+      <Envelope size={18} />
+      <p className="allm-m-0">{t("chat.email-support")}</p>
     </a>
   );
 }

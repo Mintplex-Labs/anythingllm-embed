@@ -14,6 +14,7 @@ export default function handleChat(
     error,
     close,
     errorMsg = null,
+    chatId = null,
   } = chatResult;
 
   // Preserve the sentAt from the last message in the chat history
@@ -108,6 +109,11 @@ export default function handleChat(
         sentAt,
       });
     }
+    setChatHistory([..._chatHistory]);
+  } else if (type === "finalizeResponseStream") {
+    const chatIdx = _chatHistory.findIndex((chat) => chat.uuid === uuid);
+    if (chatIdx === -1) return;
+    _chatHistory[chatIdx] = { ..._chatHistory[chatIdx], chatId };
     setChatHistory([..._chatHistory]);
   }
 }

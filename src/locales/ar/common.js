@@ -7,6 +7,8 @@ const TRANSLATIONS = {
     "message-copied": "تم النسخ!",
     "session-id": "معرّف الجلسة",
     "email-support": "دعم البريد الإلكتروني",
+    "good-response": "استجابة جيدة",
+    "copy-response": "نسخ الرد",
   },
 };
 

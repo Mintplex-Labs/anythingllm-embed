@@ -73,9 +73,9 @@ REQUIRED data attributes:
 
 - `data-button-color` — The chat bubble background color shown when chat is closed. Value must be hex color code.
 
-- `data-user-bg-color` — The background color of the user chat bubbles when chatting. Value must be hex color code.
+- `data-user-bg-color` — The background color of the user chat bubbles, send button, and suggested message buttons when chatting. Value must be hex color code. Text color is picked automatically to stay readable.
 
-- `data-assistant-bg-color` — The background color of the assistant response chat bubbles when chatting. Value must be hex color code.
+- `data-assistant-bg-color` — The background color of the assistant response chat bubbles when chatting. Value must be hex color code. If unset, assistant responses are shown without a bubble.
 
 - `data-brand-image-url` — URL to image that will be show at the top of the chat when chat is open.
 
@@ -93,7 +93,7 @@ REQUIRED data attributes:
 
 - `data-assistant-name` - Set the chat assistant name that appears above each chat message. Default `AnythingLLM Chat Assistant`
 
-- `data-assistant-icon` - Set the icon of the chat assistant.
+- `data-assistant-icon` - Set the icon of the chat assistant. Falls back to `data-brand-image-url` when unset.
 
 - `data-window-height` - Set the chat window height. **must include CSS suffix:** `px`,`%`,`rem`
 

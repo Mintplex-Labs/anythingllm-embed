@@ -1,3 +1,4 @@
+// Anything with "null" requires a translation. Contribute to translation via a PR!
 const TRANSLATIONS = {
   chat: {
     "send-message": "Siųsti žinutę",
@@ -6,6 +7,8 @@ const TRANSLATIONS = {
     "message-copied": "Nukopijuota!",
     "session-id": "Sesijos ID",
     "email-support": "Pagalba el. paštu",
+    "good-response": "Geras atsakymas",
+    "copy-response": "Kopijuoti atsakymą",
   },
 };
 

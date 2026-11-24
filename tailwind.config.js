@@ -81,7 +81,10 @@ export default {
         ]
       },
       animation: {
-        sweep: "sweep 0.5s ease-in-out"
+        sweep: "sweep 0.5s ease-in-out",
+        "chat-open": "chatOpen 400ms cubic-bezier(0.32, 0.72, 0, 1)",
+        "chat-close": "chatClose 220ms cubic-bezier(0.32, 0.72, 0, 1) forwards",
+        "chat-button": "chatButton 300ms cubic-bezier(0.32, 0.72, 0, 1)"
       },
       keyframes: {
         sweep: {
@@ -95,6 +98,19 @@ export default {
         fadeOut: {
           "0%": { opacity: 1 },
           "100%": { opacity: 0 }
+        },
+        chatOpen: {
+          "0%": { opacity: 0, transform: "scale(0.7)" },
+          "40%": { opacity: 1 },
+          "100%": { opacity: 1, transform: "scale(1)" }
+        },
+        chatClose: {
+          "0%": { opacity: 1, transform: "scale(1)" },
+          "100%": { opacity: 0, transform: "scale(0.7)" }
+        },
+        chatButton: {
+          "0%": { opacity: 0, transform: "scale(0.5)" },
+          "100%": { opacity: 1, transform: "scale(1)" }
         }
       }
     }
