@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { embedderSettings } from "@/main";
-import AnythingLLMAvatar from "@/assets/anything-llm-avatar.svg";
+import AnythingLLMMark from "@/components/AnythingLLMMark";
 import { formatDate } from "@/utils/date";
 import { contrastTextColor } from "@/utils/color";
 
@@ -30,16 +30,7 @@ const AssistantMessage = forwardRef(
           ref={ref}
           className="allm-flex allm-items-start allm-gap-x-[10px] allm-w-full"
         >
-          <img
-            src={
-              embedderSettings.settings.assistantIcon ||
-              embedderSettings.settings.brandImageUrl ||
-              AnythingLLMAvatar
-            }
-            alt="Anything LLM Icon"
-            className="allm-w-5 allm-h-5 allm-rounded-full allm-flex-shrink-0 allm-object-contain"
-            id="anything-llm-icon"
-          />
+          <AssistantAvatar />
           <AssistantContent bubbleColor={bubbleColor}>
             {children}
           </AssistantContent>
@@ -50,6 +41,32 @@ const AssistantMessage = forwardRef(
 );
 
 export default AssistantMessage;
+
+function AssistantAvatar() {
+  const customIcon =
+    embedderSettings.settings.assistantIcon ||
+    embedderSettings.settings.brandImageUrl;
+
+  if (customIcon) {
+    return (
+      <img
+        src={customIcon}
+        alt="Anything LLM Icon"
+        className="allm-w-5 allm-h-5 allm-rounded-full allm-flex-shrink-0 allm-object-contain"
+        id="anything-llm-icon"
+      />
+    );
+  }
+
+  return (
+    <div
+      className="allm-w-5 allm-h-5 allm-rounded-full allm-flex-shrink-0 allm-flex allm-items-center allm-justify-center allm-bg-slate-950 allm-text-white"
+      id="anything-llm-icon"
+    >
+      <AnythingLLMMark className="allm-w-[11px]" />
+    </div>
+  );
+}
 
 function AssistantContent({ bubbleColor, children }) {
   if (!bubbleColor) {

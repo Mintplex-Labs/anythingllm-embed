@@ -17,7 +17,7 @@ export const embedderSettings = {
   settings: scriptSettings,
   stylesSrc: parseStylesSrc(document?.currentScript?.src),
   USER_STYLES: {
-    msgBg: scriptSettings?.userBgColor ?? "#E2E8F0",
+    msgBg: scriptSettings?.userBgColor ?? "#1E293B",
   },
   ASSISTANT_STYLES: {
     // Assistant replies only render inside a bubble when a color is set.

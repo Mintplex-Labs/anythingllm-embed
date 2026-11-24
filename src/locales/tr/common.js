@@ -8,6 +8,7 @@ const TRANSLATIONS = {
     "session-id": "Oturum Kimliği",
     "email-support": "E-posta desteği",
     "good-response": "İyi yanıt",
+    "copy-response": "Yanıtı kopyala",
   },
 };
 

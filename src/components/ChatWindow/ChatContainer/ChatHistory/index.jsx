@@ -174,7 +174,7 @@ export function ChatHistoryLoading() {
 
 function SuggestedMessages({ settings }) {
   if (!settings?.defaultMessages?.length) return null;
-  const backgroundColor = embedderSettings.settings.userBgColor ?? "#1E293B";
+  const backgroundColor = embedderSettings.USER_STYLES.msgBg;
 
   return (
     <div className="allm-flex allm-flex-col allm-gap-y-2 allm-w-[300px] allm-max-w-full">

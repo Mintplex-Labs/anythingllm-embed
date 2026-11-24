@@ -73,7 +73,7 @@ REQUIRED data attributes:
 
 - `data-button-color` — The chat bubble background color shown when chat is closed. Value must be hex color code.
 
-- `data-user-bg-color` — The background color of the user chat bubbles and suggested message buttons when chatting. Value must be hex color code. Text color is picked automatically to stay readable.
+- `data-user-bg-color` — The background color of the user chat bubbles, send button, and suggested message buttons when chatting. Value must be hex color code. Text color is picked automatically to stay readable.
 
 - `data-assistant-bg-color` — The background color of the assistant response chat bubbles when chatting. Value must be hex color code. If unset, assistant responses are shown without a bubble.
 

@@ -8,6 +8,7 @@ const TRANSLATIONS = {
     "session-id": "Sesijos ID",
     "email-support": "Pagalba el. paštu",
     "good-response": "Geras atsakymas",
+    "copy-response": "Kopijuoti atsakymą",
   },
 };
 

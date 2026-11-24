@@ -102,6 +102,7 @@ const HistoricalMessage = forwardRef(
           }}
         />
         <Actions
+          message={responseContent || message}
           settings={settings}
           sessionId={sessionId}
           chatId={chatId}

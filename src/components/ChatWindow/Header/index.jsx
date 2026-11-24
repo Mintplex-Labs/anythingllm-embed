@@ -1,11 +1,11 @@
-import AnythingLLMMark from "@/assets/anything-llm-mark.svg";
+import AnythingLLMMark from "@/components/AnythingLLMMark";
 import AnythingLLMWordmark from "@/assets/anything-llm-wordmark.svg";
-import DotsThreeVertical from "@/assets/dots-three-vertical.svg";
 import ChatService from "@/models/chatService";
 import {
   ArrowCounterClockwise,
   Check,
   Copy,
+  DotsThreeVertical,
   Envelope,
   X,
 } from "@phosphor-icons/react";
@@ -64,7 +64,7 @@ export default function ChatWindowHeader({
             className="allm-bg-transparent hover:allm-cursor-pointer allm-border-none allm-p-1 allm-flex allm-items-center hover:allm-bg-slate-100 active:allm-bg-slate-200 allm-rounded-md allm-text-slate-500 hover:allm-text-slate-700 allm-transition-colors"
             aria-label="Options"
           >
-            <img src={DotsThreeVertical} alt="" />
+            <DotsThreeVertical size={18} weight="bold" />
           </button>
         )}
         <button
@@ -96,7 +96,7 @@ function Brand({ iconUrl = null }) {
 
   return (
     <div className="allm-flex allm-items-center allm-gap-x-2">
-      <img src={AnythingLLMMark} alt="AnythingLLM Logo" />
+      <AnythingLLMMark className="allm-w-5 allm-text-slate-950" />
       <img src={AnythingLLMWordmark} alt="AnythingLLM" />
     </div>
   );

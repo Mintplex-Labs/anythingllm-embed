@@ -8,6 +8,7 @@ const TRANSLATIONS = {
     "session-id": "ID phiên",
     "email-support": "Hỗ trợ qua email",
     "good-response": "Phản hồi tốt",
+    "copy-response": "Sao chép câu trả lời",
   },
 };
 

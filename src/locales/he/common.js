@@ -8,6 +8,7 @@ const TRANSLATIONS = {
     "session-id": "מזהה סשן",
     "email-support": 'תמיכה בדוא"ל',
     "good-response": "תגובה טובה",
+    "copy-response": "העתקת התגובה",
   },
 };
 

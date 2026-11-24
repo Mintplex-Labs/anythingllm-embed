@@ -8,6 +8,7 @@ const TRANSLATIONS = {
     "session-id": "شناسه جلسه",
     "email-support": "پشتیبانی ایمیل",
     "good-response": "پاسخ مناسب",
+    "copy-response": "کپی پاسخ",
   },
 };
 

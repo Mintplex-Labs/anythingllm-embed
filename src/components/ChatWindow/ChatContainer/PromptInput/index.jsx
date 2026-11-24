@@ -1,6 +1,8 @@
 import { ArrowUp, CircleNotch } from "@phosphor-icons/react";
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { embedderSettings } from "@/main";
+import { contrastTextColor } from "@/utils/color";
 
 export default function PromptInput({
   settings,
@@ -90,7 +92,11 @@ export default function PromptInput({
                 ref={formRef}
                 type="submit"
                 disabled={buttonDisabled || !message.trim()}
-                className="allm-bg-slate-800 allm-border-none allm-p-0 allm-w-5 allm-h-5 allm-flex-shrink-0 allm-inline-flex allm-items-center allm-justify-center allm-rounded-full allm-cursor-pointer allm-text-white allm-transition-colors hover:allm-bg-slate-950 disabled:allm-cursor-default disabled:hover:allm-bg-slate-800"
+                style={{
+                  backgroundColor: embedderSettings.USER_STYLES.msgBg,
+                  color: contrastTextColor(embedderSettings.USER_STYLES.msgBg),
+                }}
+                className="allm-border-none allm-p-0 allm-w-5 allm-h-5 allm-flex-shrink-0 allm-inline-flex allm-items-center allm-justify-center allm-rounded-full allm-cursor-pointer allm-transition-all hover:allm-brightness-75 disabled:allm-cursor-default disabled:allm-opacity-40 disabled:hover:allm-brightness-100"
                 id="send-message-button"
                 aria-label="Send message"
               >

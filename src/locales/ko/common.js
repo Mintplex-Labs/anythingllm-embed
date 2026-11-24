@@ -8,6 +8,7 @@ const TRANSLATIONS = {
     "session-id": "세션 ID",
     "email-support": "이메일 지원",
     "good-response": "좋은 답변",
+    "copy-response": "응답 복사",
   },
 };
 
